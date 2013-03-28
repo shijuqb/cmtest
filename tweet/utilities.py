@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 import re
 import twitter
+import os
 
 
 def assert_author(function):
@@ -40,12 +41,20 @@ def is_dirty(*args, **kwargs):
         which will hold the content to be checked for dirty words
     """
     if 'content' in kwargs and kwargs['content']:
-        bad_words = ['Big\s*\_*Box', 'Generic', 'Commodity', 'Mass\s*\_*Market']
-        pattern = re.compile(r'\b(%s)\b' % '|'.join(bad_words), re.I,)
-        dirty = re.search(pattern, kwargs['content'])
-        if not dirty:
-            dirty = re.search(r'\b[A-Z]+\b', kwargs['content'])
-        return dirty
+        # get current directory
+        app_dir = os.path.dirname(__file__)
+        # get bad words file
+        bad_words_file = os.path.join(app_dir, 'bad_words.txt')
+        # open bad word file for line by line read
+        with open(bad_words_file, 'r') as f:
+            for bad_word in f:
+                bad_word = bad_word.strip().replace(' ', '\D*')
+                pattern = re.compile(r'\b('+bad_word+')\\b', re.I,)
+                print pattern.pattern
+                dirty = re.search(pattern, kwargs['content'])
+                if not dirty:
+                    dirty = re.search(r'\b[A-Z]+\b', kwargs['content'])
+                return dirty
     else:
         return None
 

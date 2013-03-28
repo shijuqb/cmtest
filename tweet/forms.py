@@ -9,4 +9,4 @@ class TweetForm(ModelForm):
 
     class Meta:
         model = Tweet
-        exclude = ('tweet_id', 'created_by', 'created_at', 'is_reviewed')
+        exclude = ('tweet_id', 'created_by', 'created_at', 'is_dirty')

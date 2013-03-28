@@ -25,7 +25,7 @@ def index(request):
         #editor
         if user_level == '1':
             q_reviewed = request.GET.get('is_reviewed', 0)
-            tweets = Tweet.objects.filter(is_reviewed=q_reviewed).order_by('-created_at')
+            tweets = Tweet.objects.filter(is_dirty=q_reviewed).order_by('-created_at')
             # paginate tweets
             tweets = paginate(query_set=tweets, page=page_num, per_page_count=10)
             # loop to retrieve retweet count
@@ -48,7 +48,7 @@ def index(request):
         #author
         else:
             tweet_form = TweetForm()
-            tweets = Tweet.objects.filter(is_reviewed=True,
+            tweets = Tweet.objects.filter(is_dirty=True,
                                           created_by=request.user).order_by('-created_at')
             # paginate tweets
             tweets = paginate(query_set=tweets, page=page_num, per_page_count=None)
@@ -122,7 +122,7 @@ def post_tweet(request, message=None, *args, **kwargs):
                     tweet.created_by = request.user
                     tweet.tweet_id = status.id
                     if not is_dirty(content=tweet_content):
-                        tweet.is_reviewed = True
+                        tweet.is_dirty = True
                     tweet.save()
                 except Exception, e:
                     print e

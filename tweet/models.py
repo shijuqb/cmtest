@@ -21,7 +21,7 @@ class Tweet(models.Model):
     content = models.CharField(max_length=140)
     created_by = models.ForeignKey(User, related_name='tweets')
     created_at = models.DateTimeField('Created At', auto_now_add=True)
-    is_reviewed = models.BooleanField(default=False)
+    is_dirty = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.content[:20]+".."
+        return self.content[:20]+"..."
