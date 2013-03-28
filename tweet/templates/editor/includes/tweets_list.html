@@ -1,0 +1,50 @@
+    <table class="list-tweets" border="1">
+        <tr>
+            <th>Content</th>
+            <th>Retweet Count</th>
+            <th>Created By</th>
+            <th>Created At</th>
+        </tr>
+        {% for tweet in tweets %}
+            <tr>
+                <td>{{ tweet.content}}</td>
+                 <td>{{ tweet.retweet_count}}</td>
+                <td>{{ tweet.created_by}}</td>
+                <td>{{ tweet.created_at}}</td>
+            </tr>
+        {% empty %}
+                <tr><td colspan="4">No tweets</td></tr>
+        {% endfor %}
+    </table>
+    <!--
+    <div class="pagination">
+        <span class="step-links">
+            {% if tweets.has_previous %}
+                <a href="?page={{ tweets.previous_page_number }}&is_reviewed={{ is_reviewed }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ tweets.number }} of {{ tweets.paginator.num_pages }}.
+            </span>
+
+            {% if tweets.has_next %}
+                <a href="?page={{ tweets.next_page_number }}&is_reviewed={{ is_reviewed }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+    -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if tweets.has_previous %}
+                <a id="{{ tweets.previous_page_number }}" class="prev" href="">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ tweets.number }} of {{ tweets.paginator.num_pages }}.
+            </span>
+
+            {% if tweets.has_next %}
+                <a id="{{ tweets.next_page_number }}" class="next" href="">next</a>
+            {% endif %}
+        </span>
+    </div>

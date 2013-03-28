@@ -1,0 +1,98 @@
+@charset "utf-8";
+/* CSS Document */
+
+#main_container
+{
+    width: 1008px;
+    margin: 0 auto;
+}
+header,.content,footer{
+    float: left;
+    width: 100%;
+}
+#login_header{
+    width:auto;
+    float: right;
+}
+.messages{
+    list-style: none;
+}
+.success{
+    color: green;
+}
+.error{
+    color: red;
+}
+textarea.error{
+    color: #000;
+    border: 1px solid red;
+}
+#login_area{
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    margin: 20% auto;
+    padding: 10px;
+    width: 36%;
+    height: auto;
+}
+#login_area .btn-primary{
+    float: right;
+}
+#tweet_form{
+    width: 50%;
+}
+#tweet_form *{
+    float: left;
+}
+#tweet_form p{
+    width: 100%;
+}
+#tweet_form label{
+    width: 20%;
+}
+#tweet_form textarea{
+    width:387px !important;
+}
+#tweet_form .btn-primary{
+    float: right;
+}
+#char_left{
+    float: right;
+    width: 25%;
+    font-size: 13px;
+}
+#counter{
+    float: right;
+    font-weight: bold;
+    cursor: auto;
+}
+em.error{
+    float: right !important;
+}
+.w100{
+    width:100%;
+    float: left;
+}
+.list-tweets{
+    width: 100%;
+    border: 1px solid #CCCCCC;
+    margin: 20px auto;
+}
+.list-tweets th, .list-tweets tr, .list-tweets td{
+    border: 1px solid #CCCCCC;
+    text-align: left;
+    padding: 8px;
+}
+.pagination{
+    float: right;
+}
+#permission_denied{
+    margin: 20% auto;
+    width: 20%;
+    color: red;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 10px;
+    text-align: center;
+}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block head_css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/simplePagination.css"/>
+{% endblock head_css %}
+{% block head_js %}
+    <script src="{{ STATIC_URL }}js/jquery.simplePagination.js"></script>
+{% endblock head_js %}
+{% block content %}
+    <form id="search_tweets">
+        <fieldset>
+            <legend>Search</legend>
+            Filter: 
+            <select name="is_reviewed" id="id_is_reviewed">
+                <option value=0>Blocked Tweets</option>
+                <option value=1>Tweeted Tweets</option>
+            </select>
+        </fieldset>
+    </form>
+    <div class="tweets_list">
+        {% include "editor/includes/tweets_list.html" %}
+    </div>
+<script type="text/javascript">
+    $("#id_is_reviewed").val('{{ is_reviewed }}');
+    /*
+        filter tweets based on filter
+    */
+    $('#id_is_reviewed').change(function() {
+        $('.tweets_list').load("{% url index %}", $('#search_tweets').serialize(), function(){
+        });
+    });
+    /*
+        paginate tweets
+    */
+    $(".pagination a").live('click',function(e){
+            e.preventDefault();
+            var pageNum = this.id; 
+            $('.tweets_list').load("{% url index %}?page=" + pageNum, $('#search_tweets').serialize(), function(){
+                });
+        });
+</script>
+{% endblock %}

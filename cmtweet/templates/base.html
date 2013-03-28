@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js">
+    </script>
+    <script src="{{ STATIC_URL }}js/base.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.blockUI.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+    {% block head_css %} 
+        <!-- Use this block to add additional css files in the sub templates -->
+    {% endblock head_css %}
+    {% block head_js %} 
+        <!-- Use this block to add additional js files in the sub templates -->
+    {% endblock head_js %}
+    <title>{% block title %}CM-Tweet{% endblock %}
+  </title>
+</head>
+<body>
+    <div id="main_container">
+        <header>
+            <div id="header">
+                <div id="login_header">
+                    {% block header %}
+                        {% if user.is_authenticated %}
+                            Welcome, {{user.first_name}} {{user.last_name}} - <a href="/logout">Logout</a>
+                        {% endif %}
+                    {% endblock  %}
+                </div>
+            </div>
+        </header>
+        <div class="content">
+            {% block content %}
+            {% endblock  %}
+        </div>
+        <footer>
+        </footer>
+    </div>
+</body>
+</html>

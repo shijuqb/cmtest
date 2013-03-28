@@ -1,0 +1,76 @@
+[
+  {
+    "pk": 1,
+    "model": "auth.user",
+    "fields": {
+      "username": "cmadmin",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2013-03-26T09:36:56.585Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$10000$rHjl6Fq92B1X$Xf1agmo0Hm5Hg/b1p784KLTwUiVEYvMAojc3bE5EvNk=",
+      "email": "cmadmin@email.com",
+      "date_joined": "2013-03-26T09:35:42.038Z"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "auth.user",
+    "fields": {
+      "username": "author",
+      "first_name": "Joy",
+      "last_name": "Smith",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2013-03-26T10:26:53.208Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$10000$AtnbyDCtAkjC$dgnKhN/D5/Ws9Of4dgnwCF+oe41gbyLYVdSeLY7K5UQ=",
+      "email": "",
+      "date_joined": "2013-03-26T09:37:15Z"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "auth.user",
+    "fields": {
+      "username": "editor",
+      "first_name": "John",
+      "last_name": "Smith",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2013-03-26T10:07:00.839Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$10000$qbSxw7agKjUP$pwXmv8ASewKY88D6iCtPr/NZeNgYEzp64zL3yhOtWC8=",
+      "email": "",
+      "date_joined": "2013-03-26T09:37:22Z"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "tweet.twitterprofile",
+    "fields": {
+      "user": [
+        "author"
+      ],
+      "level": "2"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "tweet.twitterprofile",
+    "fields": {
+      "user": [
+        "editor"
+      ],
+      "level": "1"
+    }
+  }
+]

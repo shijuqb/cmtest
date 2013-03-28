@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block head_js %}
+    <script src="{{ STATIC_URL }}js/validate.js"></script>
+{% endblock head_js %}
+{% block content %}
+    <form action="{% url tweet %}" method="POST" id="tweet_form">{% csrf_token %} 
+        <span id ="char_left">
+           Characters Left:
+           <label id="counter">140</label>
+         </span>
+        {{ form.as_p }}
+        <input class="btn btn-primary" type="submit" value="Post Tweet">
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="w100 tweets_list">
+        {% include "author/includes/tweets_list.html" %}
+    </div>
+    <script type="text/javascript">
+        {% if corrected_tweet %}
+            $("#id_content").html('{{ corrected_tweet }}');
+        {% endif %}
+        $(".pagination a").live('click',function(e){
+            e.preventDefault();
+            var pageNum = this.id; 
+            $('.tweets_list').load("{% url index %}?page=" + pageNum, function(){
+                });
+        }); 
+    </script>
+{% endblock %}

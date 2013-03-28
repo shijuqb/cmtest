@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+    <div id="login_area">
+        {% if form.errors %}
+            <p class="error">User name and Password didn't match, please try again.</p>
+        {% endif %}
+        <fieldset>
+            <legend>Sign In</legend>
+            <form method="post" action=".">{% csrf_token %}
+                <div>
+                    <label for="id_username">Username:</label>
+                    {{ form.username }}
+                </div>
+                <div>
+                    <label for="id_password">Password:</label>
+                    {{ form.password }}
+                </div>
+                {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}" />
+                {% else %}
+                    <input type="hidden" name="next" value="{% url index %}" />
+                {% endif %}
+                <input class="btn btn-primary" type="submit" value="Sign In" />
+            </form>
+        </fieldset>
+    </div>
+    
+{% endblock %}
