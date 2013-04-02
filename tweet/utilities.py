@@ -49,8 +49,7 @@ def is_dirty(*args, **kwargs):
         with open(bad_words_file, 'r') as f:
             for bad_word in f:
                 bad_word = bad_word.strip().replace(' ', '\D*')
-                pattern = re.compile(r'\b('+bad_word+')\\b', re.I,)
-                print pattern.pattern
+                pattern = re.compile(r'\b(' + bad_word + ')\\b', re.I,)
                 dirty = re.search(pattern, kwargs['content'])
                 if not dirty:
                     dirty = re.search(r'\b[A-Z]+\b', kwargs['content'])
@@ -68,7 +67,8 @@ def brand_correct_tweet(*args, **kwargs):
         content = kwargs['content']
         branding_dict = {('consumer', 'Consumer'): 'Buyer',
                          ('maker', 'subscriber', 'Subscriber'): 'Maker',
-                         ('Custom Made', 'custom made', 'Custommade', 'customade', 'Customade'): 'CustomMade',
+                         ('Custom Made', 'custom made', 'Custommade',
+                          'customade', 'Customade'): 'CustomMade',
                          ('admin', 'back end', 'backend'): 'Dashboard',
                          ('conback', 'ConBack', 'Con back'): 'Buyer Dashboard',
                          ('subback', 'SubBack', 'Subback'): 'Maker Dashboard'}
@@ -107,7 +107,43 @@ def get_twitter_api():
         create and return twitter api object
     """
     api = twitter.Api(consumer_key=settings.TWITTER_CONSUMER_KEY,
-                              consumer_secret=settings.TWITTER_CONSUMER_SECRET,
-                              access_token_key=settings.TWITTER_ACCESS_TOKEN_KEY,
-                              access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET)
+                      consumer_secret=settings.TWITTER_CONSUMER_SECRET,
+                      access_token_key=settings.TWITTER_ACCESS_TOKEN_KEY,
+                      access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET)
     return api
+
+
+def post_to_twitter(*args, **kwargs):
+    """
+    post tweets to twitter
+    """
+    if 'content' in kwargs and kwargs['content']:
+        api = get_twitter_api()
+        status = {}
+        try:
+            twitter_post = api.PostUpdate(kwargs['content'])
+            status['success'] = True
+            status['id'] = twitter_post.id
+            status['message'] = 'Your tweet has been posted'
+        except Exception, e:
+            print e
+            status['success'] = False
+            status['message'] = e
+    return status
+
+
+def get_retweet_count(*args, **kwargs):
+    """
+    get tweet retweet count
+    """
+    if 'tweet_id' in kwargs and kwargs['tweet_id']:
+        api = kwargs['api']
+        status = {}
+        try:
+            tweet = api.GetStatus(kwargs['tweet_id'])
+            status['success'] = True
+            status['count'] = tweet.retweet_count
+        except Exception, e:
+            status['success'] = False
+            status['count'] = 0
+    return status

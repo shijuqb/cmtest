@@ -31,12 +31,8 @@ def index(request):
             # loop to retrieve retweet count
             for tweet in tweets:
                 if tweet.tweet_id:
-                    try:
-                        tweet.retweet_count = twitter_api.GetStatus(tweet.tweet_id).retweet_count
-                    except:
-                        tweet.retweet_count = 0
-                else:
-                    tweet.retweet_count = 0
+                    retweet = get_retweet_count(tweet_id=tweet.tweet_id, api=twitter_api)
+                    tweet.retweet_count = retweet['count']
             if request.is_ajax():
                 return render_to_response('editor/includes/tweets_list.html',
                                           {'tweets': tweets, 'is_reviewed': q_reviewed},
@@ -55,12 +51,8 @@ def index(request):
             # loop to retrieve retweet count
             for tweet in tweets:
                 if tweet.tweet_id:
-                    try:
-                        tweet.retweet_count = twitter_api.GetStatus(tweet.tweet_id).retweet_count
-                    except:
-                        tweet.retweet_count = 0
-                else:
-                    tweet.retweet_count = 0
+                    retweet = get_retweet_count(tweet_id=tweet.tweet_id, api=twitter_api)
+                    tweet.retweet_count = retweet['count']
             if request.is_ajax():
                 return render_to_response('author/includes/tweets_list.html',
                                           {'tweets': tweets},
@@ -113,18 +105,17 @@ def post_tweet(request, message=None, *args, **kwargs):
                 request.session.__setitem__('content', request.POST['content'])
                 return HttpResponseRedirect(reverse('index'))
             else:
-                api = get_twitter_api()
-                try:
-                    status = api.PostUpdate(tweet_content)
-                    messages.add_message(request, messages.SUCCESS, 'Your tweet has been posted')
-                    #save tweet
+                # post tweet to twitter
+                post_status = post_to_twitter(content=request.POST['content'])
+                if post_status['success']:
+                    messages.add_message(request, messages.SUCCESS, post_status['message'])
+                    # save tweet
                     tweet = tweet_form.save(commit=False)
                     tweet.created_by = request.user
-                    tweet.tweet_id = status.id
+                    tweet.tweet_id = post_status['id']
                     if not is_dirty(content=tweet_content):
                         tweet.is_dirty = True
                     tweet.save()
-                except Exception, e:
-                    print e
-                    messages.add_message(request, messages.ERROR, 'Same tweet content already posted')
+                else:
+                    messages.add_message(request, messages.ERROR, post_status['message'])
     return HttpResponseRedirect(reverse('index'))
